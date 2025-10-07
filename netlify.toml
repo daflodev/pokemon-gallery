@@ -1,37 +1,30 @@
-# netlify.toml — Angular 20 (SSR) + Netlify Functions + Dev local
-
+# netlify.toml — Angular 20 SSR on Netlify Edge
 [build]
-  # Construye browser+server (outputMode=server) y usa el lockfile del repo
   command = "npm ci && npm run build"
-  # Publica el bundle del cliente (ajusta si tu proyecto cambia de nombre)
   publish = "dist/pokemon-gallery/browser"
-
-[functions]
-  # Carpeta donde están tus Functions (p. ej. netlify/functions/generate-bios.ts)
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
 
 [build.environment]
   NODE_VERSION = "20"
 
-# Evita 404 al refrescar rutas del Router
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Optional: your Node-based Netlify Functions (not used for SSR)
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
 
-# Dev unificado: Netlify CLI proxea Angular (4200) en 8888 y sirve Functions
+# ⚠️ DO NOT add SPA redirects here, they break SSR routing.
+
+# Local dev via Netlify CLI (optional — netlify dev proxies Angular's dev server)
 [dev]
   command = "ng serve --port=4200 --host=localhost"
   targetPort = 4200
   port = 8888
 
-# Caché agresivo para assets (opcional)
+# Cache headers for assets (optional)
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Plugin oficial para SSR de Angular en Netlify
+# Angular SSR plugin
 [[plugins]]
   package = "@netlify/angular-runtime"
