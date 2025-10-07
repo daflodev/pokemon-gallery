@@ -1,59 +1,65 @@
-# PokemonGallery
+# 🧬 Pokémon Gallery - Angular App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+Una galería moderna e interactiva de Pokémon construida con **Angular 20**, **Angular Material**, animaciones, gráficos y conexión con IA.  
+Diseñada con una experiencia de usuario fluida, responsiva y visualmente atractiva. ¡Explora, busca y conoce a tus Pokémon favoritos como nunca antes!
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Demo en producción
 
-```bash
-ng serve
-```
+🔗 **Desplegado en Netlify:**  
+👉 [https://pokemon-gallery-prueba.netlify.app](https://pokemon-gallery-prueba.netlify.app)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🛠️ Tecnologías Utilizadas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+| Tecnología        | Descripción                                            |
+|------------------|--------------------------------------------------------|
+| 🔥 Angular 20     | Framework principal del proyecto                      |
+| 🎨 Angular Material | Componentes UI con diseño moderno (Material Design) |
+| 📊 Chart.js       | Visualización de estadísticas de cada Pokémon         |
+| 🤖 Gemini (IA)    | Generación automática de biografías descriptivas vía IA |
+| 🎥 Animaciones    | Pokébola animada al abrir el detalle de un Pokémon    |
+| 🕹️ SSR opcional   | Preparado para Server Side Rendering con Angular SSR |
+| 🖼️ Netlify        | Despliegue y hosting continuo                         |
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## ✨ Funcionalidades Clave
 
-```bash
-ng generate --help
-```
+### 🧠 Conexión con Gemini (IA)
+- Se generan biografías descriptivas para cada Pokémon usando la API de Gemini (Google AI).
+- Las descripciones son dinámicas, adaptadas por especie.
 
-## Building
+### 🔍 Búsqueda en Vivo
+- Barra de búsqueda en tiempo real que filtra Pokémon mientras escribes.
+- Si el Pokémon no está en el listado, se hace una búsqueda directa a la API oficial.
 
-To build the project run:
+### 🎨 Estilos Personalizados por Tipo
+- Cada tarjeta de Pokémon tiene **colores dinámicos** basados en su tipo (`fire`, `water`, etc.).
+- Mejora la lectura visual e identificación rápida de tipo.
 
-```bash
-ng build
-```
+### 📈 Gráficas de Estadísticas
+- Cada detalle de Pokémon incluye un **gráfico radar** con sus estadísticas (HP, Speed, Attack...).
+- Interactivo y responsivo con Chart.js.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### ⚡ Animaciones
+- Apertura de **Pokébola animada** antes de mostrar el modal de detalle.
+- Microinteracciones para hover, favoritos y navegación.
 
-## Running unit tests
+### 🧭 Modal de Detalles (con URL sincronizada)
+- Cada Pokémon puede abrirse en un modal desde:
+  - Clic en tarjeta
+  - Clic en botón
+  - Escribiendo directamente en la URL `/pokemon/{name}`
+- El modal se abre correctamente incluso al recargar o compartir URL.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### ❤️ Favoritos
+- Marcado y gestión de Pokémon favoritos.
+- Persistencia local (puede integrarse con login en el futuro).
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+## 📁 Estructura del Proyecto (Resumen)
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

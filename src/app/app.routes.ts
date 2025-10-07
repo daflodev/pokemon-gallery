@@ -11,7 +11,7 @@ export const routes: Routes = [
             {
                 // Esta ruta se activa con URLs como '/pokemon/pikachu'
                 path: 'pokemon/:name',
-                // AÑADIDO: Se necesita un componente para que la ruta sea válida.
+                // Se necesita un componente para que la ruta sea válida.
                 // Apuntar al mismo componente padre permite que la lógica del modal funcione.
                 component: PokemonListComponent,
             }

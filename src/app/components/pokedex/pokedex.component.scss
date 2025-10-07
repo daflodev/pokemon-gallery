@@ -7,7 +7,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #cc000e; // Rojo icónico de la Pokédex
+  background-color: #cc000e; 
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
@@ -16,7 +16,7 @@
 
   @media (min-width: 768px) {
     flex-direction: row;
-    height: 450px; // Altura fija para desktop
+    height: 450px; 
   }
 
   &--loading {
@@ -31,7 +31,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    min-height: 250px; // Altura mínima para el modo móvil
+    min-height: 250px; 
 
     @media (min-width: 768px) {
       flex-basis: 40%;
@@ -48,8 +48,8 @@
 
   &__screen {
     width: 100%;
-    max-width: 200px; // Tamaño fijo para la pantalla del sprite
-    aspect-ratio: 1 / 1; // Para que sea cuadrada
+    max-width: 200px;
+    aspect-ratio: 1 / 1; 
     background-color: #333;
     border-radius: 8px;
     border: 4px solid #555;
@@ -86,7 +86,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    border-left: 5px solid #a3000b; // Borde que simula la bisagra
+    border-left: 5px solid #a3000b; 
 
     @media (min-width: 768px) {
       flex-basis: 60%;
@@ -113,13 +113,13 @@
     color: #3f51b5;
   }
 
-  // ✅ MODIFICADO: Aumentamos la altura mínima de la caja de texto
+
   &__text-area {
     flex-grow: 1;
     background-color: #222;
     border: 2px inset #000;
     border-radius: 5px;
-    color: #0f0; // Texto verde de pantalla retro
+    color: #0f0; 
     padding: 15px;
     font-size: 0.8rem;
     line-height: 1.4;
@@ -130,10 +130,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 150px; // ✅ Aumentado para tener más espacio
+    min-height: 150px; 
 
     @media (min-width: 768px) {
-      min-height: 250px; // ✅ Aumentado para el modo escritorio
+      min-height: 250px;
     }
 
     &--loading {
@@ -146,7 +146,7 @@
     white-space: pre-wrap;
     font-family: 'Roboto Mono', monospace;
     margin: 0;
-    align-self: flex-start; // Alinea el texto al inicio si hay mucho
+    align-self: flex-start; 
   }
 
   &__placeholder {
@@ -175,9 +175,9 @@
   }
 }
 
-// ----------- Componentes internos de la Pokédex -----------
 
-// Luces LED
+
+
 .led {
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -186,7 +186,7 @@
   &--lg {
     width: 30px;
     height: 30px;
-    background-color: #007bff; // Azul
+    background-color: #007bff; 
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
   }
 
@@ -205,7 +205,7 @@
   }
 }
 
-// Botones redondos
+
 .btn--round {
   width: 30px;
   height: 30px;
@@ -223,7 +223,7 @@
   }
 }
 
-// Pantalla del sprite
+
 .screen__bezel {
   width: 95%;
   height: 95%;
@@ -232,7 +232,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px; // Espacio entre el borde y el contenido
+  padding: 5px; 
 }
 
 .screen__inner {
@@ -273,7 +273,7 @@
   pointer-events: none;
 }
 
-// D-Pad
+
 .pad {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -318,7 +318,7 @@
   }
 
   &__row {
-    display: contents; // Permite que los hijos usen las celdas del grid principal
+    display: contents; 
   }
 
   &__center {
@@ -327,7 +327,7 @@
   }
 }
 
-// Botón de generar IA
+
 .cta {
   button {
     font-family: 'Press Start 2P', cursive;

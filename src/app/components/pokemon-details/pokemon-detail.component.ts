@@ -26,7 +26,11 @@ import { PokemonDetailSkeletonComponent } from '../pokemon-detail-skeleton/pokem
 import { PokedexComponent } from '../pokedex/pokedex.component';
 
 
-
+/**
+ * Componente para mostrar los detalles completos de un Pokémon.
+ * Puede funcionar como una página independiente (a través de una ruta) o como un modal (MatDialog).
+ * Muestra información como estadísticas, tipos, habilidades, evoluciones y una biografía generada por IA.
+ */
 @Component({
     selector: 'app-pokemon-detail',
     standalone: true,
@@ -37,7 +41,7 @@ import { PokedexComponent } from '../pokedex/pokedex.component';
         MatButtonModule,
         MatProgressSpinnerModule,
         MatIconModule,
-        // MatProgressBarModule, // <- descomenta si lo usas en el HTML
+
         BaseChartDirective,
         PokemonDetailSkeletonComponent,
         PokedexComponent,
@@ -46,20 +50,31 @@ import { PokedexComponent } from '../pokedex/pokedex.component';
     styleUrls: ['./pokemon-details.component.scss'],
 })
 export class PokemonDetailComponent implements OnInit {
+    /** Referencia a la directiva del gráfico para poder actualizarlo dinámicamente. */
     @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-    // IA / Pokédex  👇  (cambia null -> string)
+    /** Almacena la biografía del Pokémon generada por la IA. */
     aiBio: string = '';
+    /** Indica si la biografía de la IA se está cargando. */
     isBioLoading = false;
+    /** Controla si el componente Pokedex (que muestra la biografía) es visible. */
     showPokedex = false;
 
+    /** El objeto Pokémon con todos sus detalles. */
     pokemon?: Pokemon;
+    /** Indica si los datos principales del Pokémon se están cargando. */
     isLoading = true;
+    /** Flag para determinar si el código se está ejecutando en el navegador (para renderizar el gráfico). */
     public isBrowser: boolean;
 
+    /** Array que almacena la cadena de evolución del Pokémon. */
     evolutions: EvolutionDetail[] = [];
+    /** Indica si la cadena de evolución se está cargando. */
     isLoadingEvolutions = true;
 
+    // --- Configuración del Gráfico de Estadísticas (Chart.js) ---
+
+    /** Opciones de configuración para el gráfico de radar. */
     public radarChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         maintainAspectRatio: false,
@@ -76,12 +91,25 @@ export class PokemonDetailComponent implements OnInit {
         plugins: { legend: { display: false } },
     };
 
+    /** Datos que se mostrarán en el gráfico de radar (etiquetas y valores). */
     public radarChartData: ChartData<'radar'> = {
         labels: [],
         datasets: [{ data: [], label: 'Stats' }],
     };
+    /** Tipo de gráfico a renderizar. */
     public radarChartType: ChartType = 'radar';
 
+    /**
+     * Constructor del componente.
+     * @param pokemonService Servicio para obtener datos de Pokémon.
+     * @param BiosService Servicio para generar la biografía con IA.
+     * @param route Proporciona acceso a la información de la ruta actual.
+     * @param data Datos inyectados cuando el componente se abre en un MatDialog. Es opcional.
+     * @param dialogRef Referencia al diálogo, si el componente se abre como uno. Es opcional.
+     * @param platformId Token para identificar si la app se ejecuta en el servidor o en el navegador.
+     * @param zone Servicio de Angular para ejecutar trabajo dentro de la zona de Angular.
+     * @param cdr Detector de cambios para forzar la actualización de la vista.
+     */
     constructor(
         private pokemonService: PokemonService,
         private BiosService: BiosService,
@@ -95,14 +123,20 @@ export class PokemonDetailComponent implements OnInit {
         this.isBrowser = isPlatformBrowser(this.platformId);
     }
 
-    // 🔒 Getters seguros (devuelven string SIEMPRE)
+    /**
+     * Getter para obtener el nombre del Pokémon con la primera letra en mayúscula.
+     * @returns El nombre formateado o una cadena vacía.
+     */
     get displayName(): string {
         const n = this.pokemon?.name ?? '';
         return n ? n.charAt(0).toUpperCase() + n.slice(1) : '';
     }
 
+    /**
+     * Getter que busca la mejor URL de sprite disponible en un orden de preferencia.
+     * @returns La URL del sprite o una cadena vacía.
+     */
     get displaySpriteUrl(): string {
-        // Resuelve aquí para no mezclar ?. con ['official-artwork'] en la plantilla
         const other: any = this.pokemon?.sprites?.other ?? {};
         const artwork = other['official-artwork']?.front_default as string | undefined;
         const home = other['home']?.front_default as string | undefined;
@@ -111,16 +145,21 @@ export class PokemonDetailComponent implements OnInit {
         return artwork || home || dream || front || '';
     }
 
+    /**
+     * Ciclo de vida `ngOnInit`. Se ejecuta al inicializar el componente.
+     * Determina si el nombre del Pokémon viene de la ruta o de los datos del diálogo y carga los datos.
+     */
     ngOnInit(): void {
         const dialogName = this.data?.name;
         const routeName = this.route.snapshot.paramMap.get('name') ?? undefined;
-        const name = dialogName ?? routeName;
+        const name = dialogName ?? routeName; // Prioriza el nombre del diálogo sobre el de la ruta.
 
         if (!name) {
             this.isLoading = false;
             return;
         }
 
+        // Carga los detalles principales del Pokémon.
         this.pokemonService.getPokemonDetails(name).subscribe({
             next: (details) => {
                 this.zone.run(() => {
@@ -139,6 +178,7 @@ export class PokemonDetailComponent implements OnInit {
             },
         });
 
+        // Carga la cadena de evolución del Pokémon.
         this.pokemonService.getPokemonEvolutions(name).subscribe({
             next: (evolutionData) => {
                 this.zone.run(() => {
@@ -156,6 +196,10 @@ export class PokemonDetailComponent implements OnInit {
         });
     }
 
+    /**
+     * Solicita al `BiosService` que genere una biografía para el Pokémon actual.
+     * Gestiona los estados de carga y muestra el resultado.
+     */
     generateBio(): void {
         if (!this.pokemon) return;
 
@@ -181,6 +225,10 @@ export class PokemonDetailComponent implements OnInit {
         });
     }
 
+    /**
+     * Prepara los datos de las estadísticas del Pokémon para ser mostrados en el gráfico de radar.
+     * @param pokemon El objeto Pokémon del cual extraer las estadísticas.
+     */
     private setupChartData(pokemon: Pokemon): void {
         const statLabels: string[] = [];
         const statData: number[] = [];
@@ -193,6 +241,7 @@ export class PokemonDetailComponent implements OnInit {
             speed: 'Velocidad',
         };
 
+        // Mapea los nombres de las estadísticas y extrae sus valores base.
         pokemon.stats.forEach((s) => {
             statLabels.push(map[s.stat.name] || s.stat.name);
             statData.push(s.base_stat);
@@ -212,9 +261,13 @@ export class PokemonDetailComponent implements OnInit {
             }],
         };
 
+        // Fuerza la actualización del gráfico si ya está renderizado.
         this.chart?.update();
     }
 
+    /**
+     * Cierra el componente si está funcionando como un diálogo (MatDialog).
+     */
     closeIfDialog(): void {
         this.showPokedex = false;
         this.dialogRef?.close?.();

@@ -24,14 +24,14 @@ export class PokedexComponent implements OnChanges {
     /** Click en “Generar con IA” */
     @Output() generate = new EventEmitter<void>();
 
-    // ✅ NUEVO: Propiedades para el efecto de tipeo
+    //  Propiedades para el efecto de tipeo
     /** Texto que se muestra en la plantilla, se actualiza progresivamente */
     public displayedText = '';
     /** Referencia al intervalo para poder limpiarlo */
     public typingInterval: any;
 
     /**
-     * ✅ NUEVO: Detecta cambios en los inputs, especialmente en 'text'.
+     *  Detecta cambios en los inputs, especialmente en 'text'.
      * Cuando 'text' recibe un nuevo valor, iniciamos el efecto de tipeo.
      */
     ngOnChanges(changes: SimpleChanges): void {
@@ -42,7 +42,7 @@ export class PokedexComponent implements OnChanges {
     }
 
     /**
-     * ✅ NUEVO: Inicia la animación de escritura.
+     * Inicia la animación de escritura.
      * Limpia cualquier animación anterior y empieza a revelar el nuevo texto.
      */
     private startTypingEffect(fullText: string): void {
