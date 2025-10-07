@@ -1,0 +1,123 @@
+<!-- Estado de carga -->
+<div *ngIf="isLoading" class="detail__skeleton">
+    <app-pokemon-detail-skeleton></app-pokemon-detail-skeleton>
+</div>
+
+<!-- Detalles del Pokémon -->
+<div *ngIf="!isLoading && pokemon" class="detail">
+
+    <!-- Encabezado del diálogo -->
+    <header class="detail__header" mat-dialog-title>
+        <h2 class="detail__title">{{ displayName }}</h2>
+        <button mat-icon-button (click)="closeIfDialog()" aria-label="Cerrar" class="detail__close">
+            <mat-icon>close</mat-icon>
+        </button>
+    </header>
+
+    <!-- Contenido principal -->
+    <mat-dialog-content class="detail__content">
+        <!-- Grid principal -->
+        <div class="detail__grid">
+
+            <!-- Imagen -->
+            <div class="detail__media">
+                <img class="detail__img" [src]="displaySpriteUrl" [alt]="displayName || 'Pokémon'" />
+            </div>
+
+            <!-- Información -->
+            <div class="detail__info">
+
+                <!-- Tipo -->
+                <section class="info-section">
+                    <h3 class="section-title">
+                        <mat-icon class="section-icon">local_fire_department</mat-icon>
+                        Tipo
+                    </h3>
+                    <mat-chip-listbox class="chips" aria-label="Tipos">
+                        <mat-chip *ngFor="let t of pokemon.types" selected>
+                            {{ t.type.name | titlecase }}
+                        </mat-chip>
+                    </mat-chip-listbox>
+                </section>
+
+                <!-- Habilidades -->
+                <section class="info-section">
+                    <h3 class="section-title">
+                        <mat-icon class="section-icon">psychology</mat-icon>
+                        Habilidades
+                    </h3>
+                    <mat-chip-listbox class="chips" aria-label="Habilidades">
+                        <mat-chip *ngFor="let a of pokemon.abilities" selected>
+                            {{ a.ability.name | titlecase }}
+                        </mat-chip>
+                    </mat-chip-listbox>
+                </section>
+
+                <!-- Evoluciones -->
+                <section class="info-section">
+                    <h3 class="section-title">
+                        <mat-icon class="section-icon">timeline</mat-icon>
+                        Evoluciones
+                    </h3>
+
+                    <div *ngIf="isLoadingEvolutions" class="spinner-line">
+                        <mat-spinner diameter="30"></mat-spinner>
+                        <span>Cargando…</span>
+                    </div>
+
+                    <div *ngIf="!isLoadingEvolutions && evolutions.length > 1" class="evolution-chain">
+                        <ng-container *ngFor="let evo of evolutions; let last = last">
+                            <div class="evolution-step">
+                                <img [src]="evo.imageUrl" [alt]="evo.name" />
+                                <span>{{ evo.name | titlecase }}</span>
+                            </div>
+                            <mat-icon *ngIf="!last" class="evolution-arrow">arrow_forward</mat-icon>
+                        </ng-container>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Biografía IA -->
+    <section class="info-section full-width" *ngIf="showPokedex">
+        <h3 class="section-title">
+            <mat-icon class="section-icon">auto_stories</mat-icon>
+            Biografía Pokédex (IA)
+        </h3>
+        <app-pokedex class="detail__pokedex" [name]="displayName" [spriteUrl]="displaySpriteUrl" [text]="aiBio"
+            [loading]="isBioLoading" (generate)="generateBio()">
+        </app-pokedex>
+    </section>
+
+    <section class="info-section full-width" *ngIf="!showPokedex">
+        <h3 class="section-title">
+            <mat-icon class="section-icon">auto_stories</mat-icon>
+            Biografía Pokédex (IA)
+        </h3>
+        <button mat-raised-button color="primary" (click)="generateBio()">
+            <mat-icon>auto_awesome</mat-icon>
+            Generar Biografía con IA
+        </button>
+    </section>
+
+        <!-- Estadísticas base -->
+        <section class="info-section full-width">
+            <h3 class="section-title">
+                <mat-icon class="section-icon">leaderboard</mat-icon> Estadísticas Base
+            </h3>
+            <div class="chart-container">
+                <ng-container *ngIf="isBrowser">
+                    <canvas baseChart [datasets]="radarChartData.datasets" [labels]="radarChartData.labels"
+                        [options]="radarChartOptions" [type]="radarChartType">
+                    </canvas>
+                </ng-container>
+            </div>
+        </section>
+    </mat-dialog-content>
+
+    <!-- Acciones -->
+    <mat-dialog-actions align="end" class="detail__actions">
+        <button mat-button (click)="closeIfDialog()">Cerrar</button>
+    </mat-dialog-actions>
+</div>

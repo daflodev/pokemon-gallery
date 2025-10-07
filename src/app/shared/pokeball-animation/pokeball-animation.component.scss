@@ -1,0 +1,85 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.pokeball {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: white;
+  border: 5px solid black;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset -4px -4px 10px rgba(0,0,0,0.2);
+
+  animation: shake 0.7s ease forwards;
+
+  // Parte superior (roja)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: red;
+    border-bottom: 4px solid black;
+    z-index: 1;
+  }
+
+  // Línea negra central
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: black;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  // Botón central
+  .button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border: 4px solid black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.1), inset 0 0 8px rgba(0,0,0,0.2);
+  }
+
+  // Luz interna del botón
+  .button::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.9);
+  }
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(15deg); }
+  40% { transform: rotate(-15deg); }
+  60% { transform: rotate(10deg); }
+  80% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}

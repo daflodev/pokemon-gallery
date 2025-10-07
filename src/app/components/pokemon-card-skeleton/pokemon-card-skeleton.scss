@@ -1,0 +1,83 @@
+.skeleton-card {
+    .mat-mdc-card-header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 8px; // Ajusta según el padding de tu card original
+    }
+
+    .skeleton-line {
+        background-color: #e0e0e0; // Color gris para simular texto
+        border-radius: 4px;
+        margin-bottom: 6px; // Espacio entre líneas
+        animation: pulse 1.5s infinite ease-in-out; // Animación de pulso
+    }
+
+    .skeleton-title {
+        width: 70%;
+        height: 24px; // Altura de un título
+    }
+
+    .skeleton-subtitle {
+        width: 40%;
+        height: 18px; // Altura de un subtítulo
+    }
+
+    .card-image-container {
+        height: 180px; // La misma altura que la imagen real
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 16px 16px 16px; // Ajusta según el margin de tu imagen real
+    }
+
+    .skeleton-image {
+        width: 150px; // Tamaño simulado de la imagen
+        height: 150px;
+        background-color: #e0e0e0;
+        border-radius: 50%; // Simula la forma circular si tus imágenes son así, o cuadrado si lo son
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .skeleton-text {
+        width: 85%;
+        height: 16px;
+    }
+
+    .skeleton-chip {
+        width: 60px; // Ancho simulado de un chip
+        height: 32px; // Altura de un chip
+        background-color: #e0e0e0 !important; // Usa !important si es necesario para sobrescribir
+        border-radius: 16px;
+        margin-right: 8px;
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .mat-mdc-chip-set {
+        padding-top: 0; // Remueve padding extra si mat-chip-listbox lo agrega
+    }
+
+    .skeleton-button {
+        width: 120px; // Ancho simulado del botón
+        height: 36px; // Altura del botón
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        margin: 8px; // Ajusta según el margin del botón real
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+}
+
+// Animación de pulso para el skeleton
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}

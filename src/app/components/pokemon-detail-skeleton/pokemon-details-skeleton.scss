@@ -1,0 +1,90 @@
+// Animación de pulso (reutilizada)
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+// Estilos base para los elementos del skeleton
+.skeleton-header,
+.skeleton-image,
+.skeleton-chip,
+.skeleton-chart {
+    background-color: #e0e0e0;
+    animation: pulse 1.5s infinite ease-in-out;
+    border-radius: 4px;
+}
+
+// Estilos específicos para el layout del detalle
+.skeleton-header {
+    width: 60%;
+    height: 32px;
+    margin-bottom: 24px;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+
+    @media (min-width: 600px) {
+        grid-template-columns: 200px 1fr;
+    }
+}
+
+.pokemon-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.skeleton-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+}
+
+.pokemon-info h3 {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    color: rgba(0, 0, 0, 0.7);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 4px;
+}
+
+.mat-mdc-chip-listbox {
+    display: flex;
+    gap: 8px;
+}
+
+.skeleton-chip {
+    width: 80px;
+    height: 32px;
+    border-radius: 16px;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    height: 300px;
+    margin: 16px auto 0;
+
+    @media (min-width: 600px) {
+        height: 250px;
+    }
+}
+
+.skeleton-chart {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
