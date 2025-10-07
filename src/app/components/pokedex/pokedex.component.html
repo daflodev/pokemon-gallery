@@ -1,0 +1,78 @@
+<div class="dex">
+    <!-- Tapa izquierda -->
+    <section class="dex__left">
+        <header class="dex__topbar">
+            <span class="led led--lg"></span>
+            <span class="led led--sm"></span>
+            <span class="led led--sm led--yellow"></span>
+        </header>
+
+        <div class="dex__screen">
+            <div class="screen__bezel">
+                <div class="screen__inner">
+                    <img *ngIf="spriteUrl" class="screen__sprite" [src]="spriteUrl" alt="Sprite del Pokémon"
+                        loading="lazy" />
+                    <div class="screen__scanlines"></div>
+                </div>
+            </div>
+
+            <div class="dex__grill" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <footer class="dex__footer">
+            <div class="btn btn--round"></div>
+            <div class="btn btn--round btn--red"></div>
+            <div class="btn btn--round btn--blue"></div>
+        </footer>
+    </section>
+
+    <!-- Tapa derecha -->
+    <section class="dex__right">
+        <header class="dex__header">
+            <h3 class="dex__title">{{ name || 'Pokédex' }}</h3>
+            <button mat-icon-button class="dex__action" (click)="generate.emit()" [disabled]="loading">
+                <mat-icon>auto_awesome</mat-icon>
+            </button>
+        </header>
+
+        <div class="dex__text-area" [class.dex__text-area--loading]="loading">
+            <ng-container *ngIf="!loading; else loadingTpl">
+                <p class="dex__text" *ngIf="text; else emptyTpl">{{ text }}</p>
+            </ng-container>
+
+            <ng-template #loadingTpl>
+                <div class="dex__loading">
+                    <mat-spinner diameter="28"></mat-spinner>
+                    <span>Generando entrada de Pokédex…</span>
+                </div>
+            </ng-template>
+
+            <ng-template #emptyTpl>
+                <p class="dex__placeholder">
+                    Pulsa <strong><mat-icon inline>auto_awesome</mat-icon></strong> para generar una entrada.
+                </p>
+            </ng-template>
+        </div>
+
+        <footer class="dex__controls">
+            <div class="pad">
+                <div class="pad__arrow pad__arrow--up"></div>
+                <div class="pad__row">
+                    <div class="pad__arrow pad__arrow--left"></div>
+                    <div class="pad__center"></div>
+                    <div class="pad__arrow pad__arrow--right"></div>
+                </div>
+                <div class="pad__arrow pad__arrow--down"></div>
+            </div>
+
+            <div class="cta">
+                <button mat-stroked-button color="primary" (click)="generate.emit()" [disabled]="loading">
+                    <mat-icon>auto_awesome</mat-icon>
+                    Generar con IA
+                </button>
+            </div>
+        </footer>
+    </section>
+</div>

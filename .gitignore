@@ -6,6 +6,10 @@
 /out-tsc
 /bazel-out
 
+.vscode
+
+.env
+
 # Node
 /node_modules
 npm-debug.log
@@ -41,3 +45,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Local Netlify folder
+.netlify

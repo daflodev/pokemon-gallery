@@ -1,0 +1,82 @@
+<div class="container">
+     <header class="main-header">
+         <h1 class="main-title">Galería Pokémon</h1>
+         </header>
+
+     <mat-form-field appearance="outline" class="search-bar">
+         <mat-label>Buscar Pokémon...</mat-label>
+         <input matInput [formControl]="searchControl" placeholder="Ej. Pikachu">
+         </mat-form-field>
+
+     <div *ngIf="isLoading" class="pokemon-grid">
+         <app-pokemon-card-skeleton *ngFor="let _ of [].constructor(30)"></app-pokemon-card-skeleton>
+         </div>
+
+     <div *ngIf="(filteredPokemons$ | async)?.length; else randomList">
+         <div class="pokemon-grid">
+              <mat-card *ngFor="let pokemon of filteredPokemons$ | async" class="pokemon-card"  
+                (click)="goToDetails(pokemon.name)" [ngStyle]="getGradientForPokemon(pokemon)">
+                  <mat-card-header>
+                       <mat-card-title>{{ pokemon.name | titlecase }}</mat-card-title>
+                       <mat-card-subtitle>#{{ pokemon.id.toString().padStart(3, '0') }}</mat-card-subtitle>
+                      </mat-card-header>
+
+                  <div class="card-image-container">
+                       <img mat-card-image [src]="getSpriteUrl(pokemon)" [alt]="pokemon.name">
+                      </div>
+
+                  <mat-card-content class="summary">
+                       <div class="info-group">
+                           <strong>Tipo:</strong>
+                           <div class="chips-container">
+                                <mat-chip-listbox>
+                                    <mat-chip *ngFor="let type of pokemon.types" selected>
+                                         {{ type.type.name | titlecase }}
+                                        </mat-chip>
+                                    </mat-chip-listbox>
+                               </div>
+                           </div>
+                       <div class="info-group">
+                           <strong>Habilidades:</strong>
+                           <span>{{ getAbilities(pokemon) | titlecase }}</span>
+                           </div>
+                      </mat-card-content>
+                  </mat-card>
+             </div>
+         </div>
+
+     <ng-template #randomList>
+         <div class="pokemon-grid">
+              <mat-card *ngFor="let pokemon of randomPokemons$ | async" class="pokemon-card"  
+                (click)="goToDetails(pokemon.name)" [ngStyle]="getGradientForPokemon(pokemon)">
+                  <mat-card-header>
+                       <mat-card-title>{{ pokemon.name | titlecase }}</mat-card-title>
+                       <mat-card-subtitle>#{{ pokemon.id.toString().padStart(3, '0') }}</mat-card-subtitle>
+                      </mat-card-header>
+
+                  <div class="card-image-container">
+                       <img mat-card-image [src]="getSpriteUrl(pokemon)" [alt]="pokemon.name">
+                      </div>
+
+                  <mat-card-content class="summary">
+                       <div class="info-group">
+                           <strong>Tipo:</strong>
+                           <div class="chips-container">
+                                <mat-chip-listbox>
+                                    <mat-chip *ngFor="let type of pokemon.types" selected>
+                                         {{ type.type.name | titlecase }}
+                                        </mat-chip>
+                                    </mat-chip-listbox>
+                               </div>
+                           </div>
+                       <div class="info-group">
+                           <strong>Habilidades:</strong>
+                           <span>{{ getAbilities(pokemon) | titlecase }}</span>
+                           </div>
+                      </mat-card-content>
+                  </mat-card>
+             </div>
+         </ng-template>
+
+     <app-pokeball-animation *ngIf="showAnimation" (animationDone)="onAnimationDone()"></app-pokeball-animation>
+</div>
