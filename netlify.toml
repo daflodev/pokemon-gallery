@@ -1,38 +1,37 @@
-# netlify.toml — Angular 20 + SSR (App Engine) + Functions + Dev local
+# netlify.toml — Angular 20 (SSR) + Netlify Functions + Dev local
 
 [build]
-  # Build de Angular (genera browser + server con outputMode=server)
+  # Construye browser+server (outputMode=server) y usa el lockfile del repo
   command = "npm ci && npm run build"
-  # Publica la carpeta del cliente (ajustado a tu proyecto)
+  # Publica el bundle del cliente (ajusta si tu proyecto cambia de nombre)
   publish = "dist/pokemon-gallery/browser"
 
-# Dónde viven las Netlify Functions (por ejemplo: netlify/functions/generate-bios.ts)
 [functions]
+  # Carpeta donde están tus Functions (p. ej. netlify/functions/generate-bios.ts)
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# Opcional pero recomendado: Node 20 para build
 [build.environment]
   NODE_VERSION = "20"
 
-# Redirect SPA para que al refrescar rutas del Router no haya 404
+# Evita 404 al refrescar rutas del Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Dev local unificado (levanta Angular y proxea /.netlify/functions/*)
+# Dev unificado: Netlify CLI proxea Angular (4200) en 8888 y sirve Functions
 [dev]
-  command = "ng serve"   # comando que arranca tu app local
-  targetPort = 4200      # puerto donde corre ng serve
-  port = 8888            # puerto expuesto por netlify dev (http://localhost:8888)
+  command = "ng serve --port=4200 --host=localhost"
+  targetPort = 4200
+  port = 8888
 
-# (Opcional) Cabeceras de caché para assets estáticos
+# Caché agresivo para assets (opcional)
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# (Opcional) Plugin de Angular Runtime para SSR (suele autodetectarse; puedes fijarlo)
+# Plugin oficial para SSR de Angular en Netlify
 [[plugins]]
   package = "@netlify/angular-runtime"
